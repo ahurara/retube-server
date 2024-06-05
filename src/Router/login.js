@@ -1,5 +1,5 @@
-const exporess = require('express');
-const router = exporess.Router();
+const express = require('express');
+const router = express.Router();
 require('../DB/connection');
 const register = require('../models/register');
 
@@ -7,7 +7,7 @@ router.get('/', (req,res)=>{
     res.send('hello from the server')
 })
 
-router.post('/singUp', async(req,res)=>{
+router.post('/signUp', async(req,res)=>{
     try{
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
@@ -23,12 +23,18 @@ router.post('/singUp', async(req,res)=>{
                 const registeredUser =await registerUser.save();
                 res.send(registeredUser);
             }
+            else{
+                res.send("password not matched")
+            }
          
 
     }
-    catch(err){
-        console.log(`error ${err}`)
-    }
-})
+    catch(e){
+    console.error(e); // Log the error to the console
+    res.status(500).send(`Error: ${e.message}`);
+  }
+}
+
+)
 
 module.exports = router;
